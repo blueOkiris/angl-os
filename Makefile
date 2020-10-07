@@ -1,25 +1,26 @@
 # Project settings
-OSNAME :=  angl-os
-AS :=      nasm
-ASFLAGS := -f elf
-CC :=      gcc
-CFLAGS :=  -Iinclude -m32 -Wall -Werror -O2 -ffreestanding -fno-exceptions
-LD :=      gcc
-LDFLAGS := -nostdlib -nodefaultlibs -lgcc -m32
+OSNAME :=   angl-os
+AS :=       nasm
+ASFLAGS :=  -f elf
+CPPC :=     g++
+CPPFLAGS := -Iinclude -m32 -O2 -Wall -Werror \
+            -fno-rtti -ffreestanding -fno-exceptions
+LD :=       gcc
+LDFLAGS :=  -nostdlib -nodefaultlibs -lgcc -m32
 
 # Autogen stuff and helper stuff
-LINKER :=  src/linker.ld
-GRUB :=    src/grub.cfg
-SRC :=     $(wildcard src/*.c) $(wildcard src/*.asm)
-OBJS :=    $(subst .c,.c.o,$(subst .asm,.asm.o,$(subst src,obj,$(SRC))))
-DISC :=    iso/$(OSNAME).iso
+LINKER :=   src/linker.ld
+GRUB :=     src/grub.cfg
+SRC :=      $(wildcard src/*.cpp) $(wildcard src/*.asm)
+OBJS :=     $(subst .cpp,.cpp.o,$(subst .asm,.asm.o,$(subst src,obj,$(SRC))))
+DISC :=     iso/$(OSNAME).iso
 
 .PHONY : all
 all : $(DISC)
 
-obj/%.c.o : src/%.c
+obj/%.cpp.o : src/%.cpp
 	mkdir -p obj/
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CPPC) $(CPPFLAGS) -c -o $@ $<
 
 obj/%.asm.o : src/%.asm
 	mkdir -p obj/

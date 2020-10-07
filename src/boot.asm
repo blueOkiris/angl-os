@@ -1,7 +1,7 @@
 ; Stage 2 - Bootloader
 [bits 32]
 global start
-extern kernel_main
+extern _ZN4angl6kernel4mainEv
 
 ; This is needed to use grub
 section .mbHeader
@@ -18,5 +18,5 @@ MultiBootHeader:
 
 ; Actual loader
 start:
-    push    ebx             ; Load grub's structure
-    call    kernel_main
+    push    ebx                     ; Load grub's structure
+    call    _ZN4angl6kernel4mainEv  ; C++'s angl::kernel::main
