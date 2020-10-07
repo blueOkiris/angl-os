@@ -11,7 +11,7 @@ LDFLAGS :=  -nostdlib -nodefaultlibs -lgcc -m32
 # Autogen stuff and helper stuff
 LINKER :=   src/linker.ld
 GRUB :=     src/grub.cfg
-SRC :=      $(wildcard src/*.cpp) $(wildcard src/*.asm)
+SRC :=      $(wildcard src/*.asm) $(wildcard src/*.cpp)
 OBJS :=     $(subst .cpp,.cpp.o,$(subst .asm,.asm.o,$(subst src,obj,$(SRC))))
 DISC :=     iso/$(OSNAME).iso
 

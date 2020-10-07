@@ -18,5 +18,4 @@ MultiBootHeader:
 
 ; Actual loader
 start:
-    push    ebx                     ; Load grub's structure
     call    _ZN4angl6kernel4mainEv  ; C++'s angl::kernel::main
