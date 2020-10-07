@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include <color.hpp>
+#include <Color.hpp>
 
 #define VGA_WIDTH   80
 #define VGA_HEIGHT  24

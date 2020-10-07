@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <stdint.h>
-#include <color.hpp>
-#include <terminal.hpp>
+#include <Color.hpp>
+#include <Terminal.hpp>
 
 using namespace angl;
 using namespace terminal;

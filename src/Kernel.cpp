@@ -1,12 +1,13 @@
-#include <terminal.hpp>
-#include <paging.hpp>
-#include <gdt.hpp>
-#include <kernel.hpp>
+#include <IdtGdt.hpp>
+#include <Terminal.hpp>
+#include <Kernel.hpp>
 
 using namespace angl;
 using namespace kernel;
 
 void angl::kernel::main() {
+    Gdt gdt;
+
     terminal::Terminal console;
     console.putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
 
