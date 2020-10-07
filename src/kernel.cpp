@@ -1,11 +1,13 @@
 #include <terminal.hpp>
 #include <paging.hpp>
+#include <gdt.hpp>
 #include <kernel.hpp>
 
 using namespace angl;
 using namespace kernel;
 
 void angl::kernel::main() {
+    Gdt gdt;
     paging::init();
 
     terminal::Terminal console;

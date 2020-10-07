@@ -3,7 +3,7 @@
 #include <paging.hpp>
 
 using namespace angl;
-using namespace paging;
+using namespace kernel;
 
 extern "C" void loadPageDirectory(unsigned int *);
 extern "C" void enablePaging();

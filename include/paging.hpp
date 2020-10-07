@@ -1,7 +1,9 @@
 #pragma once
 
 namespace angl {
-    namespace paging {
-        void init();
+    namespace kernel {
+        namespace paging {
+            void init();
+        }
     }
 }
