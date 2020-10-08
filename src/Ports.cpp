@@ -5,13 +5,12 @@
 using namespace angl;
 using namespace io;
 
-extern "C" uint32_t read_port(uint32_t port);
-extern "C" uint32_t write_port(uint32_t port, uint32_t data);
-
-uint8_t port::read(uint32_t port) {
-    return read_port(port);
+uint8_t port::read(uint16_t port) {
+    uint8_t data;
+    asm volatile("inb %1, %0" : "=a" (data) : "dN" (port));
+    return data;
 }
 
-void port::write(uint32_t port, uint8_t data) {
-    write_port(port, data);
+void port::write(uint16_t port, uint8_t data) {
+    asm volatile ("outb %1, %0" : : "dN" (port), "a" (data));
 }

@@ -55,7 +55,7 @@ namespace angl {
         struct RegisterSet {
             uint32_t ds;
             uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
-            uint32_t interrupNumber, errorCode;
+            uint32_t interruptNumber, errorCode;
             uint32_t eip, cs, eflags, useresp, ss;
         } __attribute__((packed));
 

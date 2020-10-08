@@ -60,6 +60,20 @@ void idt::init() {
         idt = (IdtEntry) { 0, 0, 0, 0, 0 };
     }
 
+    // Remap IRQ table
+    io::port::write(0x20, 0x11);
+    io::port::write(0xA0, 0x11);
+
+    io::port::write(0x21, 0x20);
+    io::port::write(0xA1, 0x28);
+    io::port::write(0x21, 0x04);
+    io::port::write(0xA1, 0x02);
+    io::port::write(0x21, 0x01);
+    io::port::write(0xA1, 0x01);
+    
+    io::port::write(0x21, 0xFB);
+    io::port::write(0xA1, 0xFF);
+
     setGate(0, reinterpret_cast<uint32_t>(isr0), 0x08, 0x8E);
     setGate(1, reinterpret_cast<uint32_t>(isr1), 0x08, 0x8E);
     setGate(2, reinterpret_cast<uint32_t>(isr2), 0x08, 0x8E);
@@ -93,22 +107,6 @@ void idt::init() {
     setGate(30, reinterpret_cast<uint32_t>(isr30), 0x08, 0x8E);
     setGate(31, reinterpret_cast<uint32_t>(isr31), 0x08, 0x8E);
 
-    idt_flush(reinterpret_cast<uint32_t>(&idtPtr_g));
-
-    // Remap IRQ table
-    io::port::write(0x20, 0x11);
-    io::port::write(0xA0, 0x11);
-
-    io::port::write(0x21, 0x20);
-    io::port::write(0xA1, 0x28);
-    io::port::write(0x21, 0x04);
-    io::port::write(0xA1, 0x02);
-    io::port::write(0x21, 0x01);
-    io::port::write(0xA1, 0x01);
-    
-    io::port::write(0x21, 0xFB);
-    io::port::write(0xA1, 0xFF);
-
     setGate(32, reinterpret_cast<uint32_t>(irq0), 0x08, 0x8E);
     setGate(33, reinterpret_cast<uint32_t>(irq1), 0x08, 0x8E);
     setGate(34, reinterpret_cast<uint32_t>(irq2), 0x08, 0x8E);
@@ -125,4 +123,6 @@ void idt::init() {
     setGate(45, reinterpret_cast<uint32_t>(irq13), 0x08, 0x8E);
     setGate(46, reinterpret_cast<uint32_t>(irq14), 0x08, 0x8E);
     setGate(47, reinterpret_cast<uint32_t>(irq15), 0x08, 0x8E);
+
+    idt_flush(reinterpret_cast<uint32_t>(&idtPtr_g));
 }
