@@ -6,8 +6,8 @@ using namespace angl;
 using namespace kernel;
 
 void angl::kernel::main() {
-    Gdt::init();
-    Idt::init();
+    gdt::init();
+    idt::init();
 
     io::terminal::init();
     io::terminal::putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");

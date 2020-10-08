@@ -5,11 +5,11 @@
 using namespace angl;
 using namespace io;
 
-bool termHasBeeninit_g = false;
+static bool termHasBeeninit_g = false;
 
-size_t currRow_g, currCol_g;
-TerminalColor currColor_g;
-uint16_t *textBuffer_g;
+static size_t currRow_g, currCol_g;
+static TerminalColor currColor_g;
+static uint16_t *textBuffer_g;
 
 /*
  * Helper functions

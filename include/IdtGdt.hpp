@@ -27,31 +27,12 @@ namespace angl {
             uint32_t base;
         } __attribute__((packed));
 
-        class Gdt {
-            private:
-                static GdtEntry _gdt[5];
-                static DescPtr _ptr;
-
-                static void _setGate(
-                    int num, uint32_t base, uint32_t limit,
-                    uint8_t access, uint8_t granularity
-                );
-            
-            public:
-                static void init();
-        };
-
-        class Idt {
-            private:
-                static IdtEntry _idt[256];
-                static DescPtr _ptr;
-
-                static void _setGate(
-                    int num, uint32_t base, uint16_t selector, uint8_t flags
-                );
-            
-            public:
-                static void init();
-        };
+        namespace gdt {
+            void init();
+        }
+        
+        namespace idt {
+            void init();
+        }
     }
 }
