@@ -64,6 +64,8 @@ namespace angl {
         }
 
         namespace irq {
+            void enable(uint32_t num);
+            void disable(uint32_t num);
             void handler(RegisterSet regs);
         }
     }

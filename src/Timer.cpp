@@ -25,4 +25,5 @@ void timer::init(uint32_t frequency) {
     uint8_t high = static_cast<uint8_t>((divisor >> 8) & 0xFF);
     io::port::write(0x40, low);
     io::port::write(0x40, high);
+    kernel::irq::enable(0);
 }

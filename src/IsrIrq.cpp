@@ -15,6 +15,34 @@ void isr::handler(RegisterSet regs) {
     io::terminal::putChar('\n');
 }
 
+void irq::disable(uint32_t num) {
+    uint32_t current;
+    
+    if(num < 8) { // If in master PIC 0->8
+        current = io::port::read(0x21);
+        current |= (0x01 << num);
+        io::port::write(0x21, current);
+    } else { // Otherwise is slave PIC 0->8
+        current = io::port::read(0xA1);
+        current |= (0x01 << (num - 8));
+        io::port::write(0xA1, current);
+    }
+}
+
+void irq::enable(uint32_t num) {
+    uint32_t current;
+    
+    if(num < 8) { // If in master PIC 0->8
+        current = io::port::read(0x21);
+        current &= ~(0x01 << num);
+        io::port::write(0x21, current);
+    } else { // Otherwise is slave PIC 0->8
+        current = io::port::read(0xA1);
+        current &= ~(0x01 << (num - 8));
+        io::port::write(0xA1, current);
+    }
+}
+
 void irq::handler(RegisterSet regs) {
     if(regs.interrupNumber >= 40) {
         io::port::write(0xA0, 0x20); // Send reset signal to slave
