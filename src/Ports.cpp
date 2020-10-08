@@ -9,9 +9,9 @@ extern "C" uint32_t read_port(uint32_t port);
 extern "C" uint32_t write_port(uint32_t port, uint32_t data);
 
 uint8_t port::read(uint32_t port) {
-    return static_cast<uint8_t>(read_port(static_cast<uint32_t>(port)));
+    return static_cast<uint8_t>(read_port(port));
 }
 
 void port::write(uint32_t port, uint8_t data) {
-    write_port(static_cast<uint8_t>(port), static_cast<uint8_t>(data));
+    write_port(port, static_cast<uint8_t>(data));
 }
