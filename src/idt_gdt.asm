@@ -1,5 +1,6 @@
 [bits 32]
 global gdt_flush
+global idt_flush
 
 gdt_flush:
     mov     eax, [esp + 4]      ; Pointer to GDT pointer
@@ -14,4 +15,9 @@ gdt_flush:
     mov     ss, ax
     jmp     0x08:.flush         ; 0x08 - Code segment
 .flush:
+    ret
+
+idt_flush:
+    mov     eax, [esp + 4]      ; pointer to Idt pointer
+    lidt    [eax]
     ret

@@ -6,6 +6,9 @@
 using namespace angl;
 using namespace terminal;
 
+Terminal Terminal::_instance;
+bool Terminal::_hasBeeninit = false;
+
 /*
  * Helper functions
  */
@@ -37,8 +40,18 @@ void Terminal::_putEntryAt(char c, Color color, size_t x, size_t y) {
     _buffer[index] = makeVgaEntry(c, color);
 }
 
-Terminal::Terminal() : _row(0), _col(0),
-        _color(makeColor(Color::LightGray, Color::Black)) {
+Terminal *Terminal::instance() {
+    if(!_hasBeeninit) {
+        _instance._init();
+        _hasBeeninit = true;
+    }
+
+    return &_instance;
+}
+
+void Terminal::_init() {
+    _row = _col = 0;
+    _color = makeColor(Color::LightGray, Color::Black);
     _buffer = (uint16_t *) VGA_MEMORY;
     for(size_t y = 0; y < VGA_HEIGHT; y++) {
         for(size_t x = 0; x < VGA_WIDTH; x++) {
@@ -46,6 +59,9 @@ Terminal::Terminal() : _row(0), _col(0),
             _buffer[index] = makeVgaEntry(' ', _color);
         }
     }
+}
+
+Terminal::Terminal() {
 }
 
 void Terminal::setColor(Color color) {
@@ -63,6 +79,14 @@ void Terminal::putChar(char c) {
         if(++_row == VGA_HEIGHT) {
             _row = 0;
         }
+    }
+}
+
+void Terminal::putInteger(uint32_t d) {
+    uint32_t currVal = d;
+    while(currVal > 0) {
+        putChar('0' + (currVal % 10));
+        currVal /= 10;
     }
 }
 

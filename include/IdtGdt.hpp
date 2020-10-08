@@ -14,11 +14,6 @@ namespace angl {
             uint8_t baseHigh;
         } __attribute__((packed));
 
-        struct GdtPtr {
-            uint16_t limit;
-            uint32_t base;
-        } __attribute__((packed));
-
         struct IdtEntry {
             uint16_t baseLow;
             uint16_t selector;
@@ -27,14 +22,32 @@ namespace angl {
             uint16_t baseHigh;
         } __attribute__((packed));
 
+        struct DescPtr {
+            uint16_t limit;
+            uint32_t base;
+        } __attribute__((packed));
+
         class Gdt {
             private:
                 static GdtEntry _gdt[5];
-                static GdtPtr _ptr;
+                static DescPtr _ptr;
 
                 static void _setGate(
                     int num, uint32_t base, uint32_t limit,
                     uint8_t access, uint8_t granularity
+                );
+            
+            public:
+                static void init();
+        };
+
+        class Idt {
+            private:
+                static IdtEntry _idt[256];
+                static DescPtr _ptr;
+
+                static void _setGate(
+                    int num, uint32_t base, uint16_t selector, uint8_t flags
                 );
             
             public:
