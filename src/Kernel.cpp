@@ -14,14 +14,12 @@ void angl::kernel::main() {
     io::terminal::putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
 
     io::terminal::putStr("\nTesting IDT...\n");
-    asm volatile ("int $3");
+    asm volatile ("int $0");
     asm volatile ("int $31");
     io::terminal::putStr("Done testing!\n");
 
     io::terminal::putStr("\nNow just running clock...\n");
-    irq::enable(0);
-    asm volatile ("int $32");
-    //timer::init(1);
+    timer::init(50);
 
     while(true);
 }
