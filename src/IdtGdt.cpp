@@ -106,7 +106,7 @@ void idt::init() {
     io::port::write(0x21, 0x01);
     io::port::write(0xA1, 0x01);
     
-    io::port::write(0x21, 0xFB);
+    io::port::write(0x21, 0xF8);
     io::port::write(0xA1, 0xFF);
 
     setGate(32, reinterpret_cast<uint32_t>(irq0), 0x08, 0x0E);
