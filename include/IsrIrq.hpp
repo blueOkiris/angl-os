@@ -33,6 +33,23 @@ extern "C" void isr29();
 extern "C" void isr30();
 extern "C" void isr31();
 
+extern "C" void irq0();
+extern "C" void irq1();
+extern "C" void irq2();
+extern "C" void irq3();
+extern "C" void irq4();
+extern "C" void irq5();
+extern "C" void irq6();
+extern "C" void irq7();
+extern "C" void irq8();
+extern "C" void irq9();
+extern "C" void irq10();
+extern "C" void irq11();
+extern "C" void irq12();
+extern "C" void irq13();
+extern "C" void irq14();
+extern "C" void irq15();
+
 namespace angl {
     namespace kernel {
         struct RegisterSet {
@@ -42,7 +59,11 @@ namespace angl {
             uint32_t eip, cs, eflags, useresp, ss;
         } __attribute__((packed));
 
-        namespace Isr {
+        namespace isr {
+            void handler(RegisterSet regs);
+        }
+
+        namespace irq {
             void handler(RegisterSet regs);
         }
     }

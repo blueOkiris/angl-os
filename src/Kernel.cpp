@@ -12,8 +12,5 @@ void angl::kernel::main() {
     io::terminal::init();
     io::terminal::putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
 
-    asm volatile ("int $0x3");
-    asm volatile ("int $0x4");
-
     while(true);
 }
