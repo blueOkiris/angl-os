@@ -15,6 +15,7 @@ void angl::kernel::main() {
 
     io::terminal::putStr("\nTesting IDT...\n");
     asm volatile ("int $0x3");
+    asm volatile ("int $0x4");
     io::terminal::putStr("Done testing!\n");
 
     io::terminal::putStr("\nNow just running clock...");
