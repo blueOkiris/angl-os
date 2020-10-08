@@ -19,18 +19,26 @@ namespace angl {
             uint32_t base;
         } __attribute__((packed));
 
+        struct IdtEntry {
+            uint16_t baseLow;
+            uint16_t selector;
+            uint8_t alwaysZero;
+            uint8_t flags;
+            uint16_t baseHigh;
+        } __attribute__((packed));
+
         class Gdt {
             private:
-                GdtEntry _gdt[5];
-                GdtPtr _ptr;
+                static GdtEntry _gdt[5];
+                static GdtPtr _ptr;
 
-                void _setGate(
+                static void _setGate(
                     int num, uint32_t base, uint32_t limit,
                     uint8_t access, uint8_t granularity
                 );
             
             public:
-                Gdt();
+                static void init();
         };
     }
 }

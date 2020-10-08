@@ -7,7 +7,10 @@ using namespace kernel;
 
 extern "C" void gdt_flush(uint32_t);
 
-Gdt::Gdt() {
+GdtEntry Gdt::_gdt[5];
+GdtPtr Gdt::_ptr;
+
+void Gdt::init() {
     _ptr.limit = (sizeof(GdtEntry) * 5) - 1;
     _ptr.base = reinterpret_cast<uint32_t>(&_gdt);
 
