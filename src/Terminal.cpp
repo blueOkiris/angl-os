@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <stdint.h>
+#include <Ports.hpp>
 #include <Terminal.hpp>
 
 using namespace angl;
@@ -39,6 +40,14 @@ inline void putEntryAt(char c, TerminalColor color, size_t x, size_t y) {
     textBuffer_g[index] = makeVgaEntry(c, color);
 }
 
+inline void updateCursor() {
+   uint16_t cursorLocation = currRow_g * VGA_WIDTH + currCol_g;
+   io::port::write(0x3D4, 14); // Tell VGA we are setting the high byte
+   io::port::write(0x3D5, cursorLocation >> 8); // Send the high byte
+   io::port::write(0x3D4, 15); // Tell VGA we are setting the low byte
+   io::port::write(0x3D5, cursorLocation); // Send the low byte
+}
+
 /*
  * Main terminal functions
  */
@@ -75,6 +84,7 @@ void terminal::putChar(char c) {
             currRow_g = 0;
         }
     }
+    updateCursor();
 }
 
 void terminal::putInteger(uint32_t d) {
