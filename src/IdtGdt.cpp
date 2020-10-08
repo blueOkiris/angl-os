@@ -98,14 +98,16 @@ void idt::init() {
     // Remap IRQ table
     io::port::write(0x20, 0x11);
     io::port::write(0xA0, 0x11);
+
     io::port::write(0x21, 0x20);
     io::port::write(0xA1, 0x28);
     io::port::write(0x21, 0x04);
     io::port::write(0xA1, 0x02);
     io::port::write(0x21, 0x01);
     io::port::write(0xA1, 0x01);
-    io::port::write(0x21, 0x00);
-    io::port::write(0xA1, 0x00);
+    
+    io::port::write(0x21, 0xFB);
+    io::port::write(0xA1, 0xFF);
 
     setGate(32, reinterpret_cast<uint32_t>(irq0), 0x08, 0x0E);
     setGate(33, reinterpret_cast<uint32_t>(irq1), 0x08, 0x0E);
