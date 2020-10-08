@@ -9,8 +9,8 @@ void angl::kernel::main() {
     Gdt::init();
     Idt::init();
 
-    io::Terminal::init();
-    io::Terminal::putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
+    io::terminal::init();
+    io::terminal::putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
 
     asm volatile ("int $0x3");
     asm volatile ("int $0x4");

@@ -18,25 +18,13 @@ namespace angl {
             Whit = 15
         };
 
-        class Terminal {
-            private:
-                static bool _hasBeeninit;
+        namespace terminal {
+            void init();
 
-                static size_t _row, _col;
-                static TerminalColor _color;
-                static uint16_t *_buffer;
-
-                static void _putEntryAt(
-                    char c, TerminalColor color, size_t x, size_t y
-                );
-
-            public:
-                static void init();
-
-                static void setColor(TerminalColor color);
-                static void putChar(char c);
-                static void putInteger(uint32_t d);
-                static void putStr(const char *str);
-        };
+            void setColor(TerminalColor color);
+            void putChar(char c);
+            void putInteger(uint32_t d);
+            void putStr(const char *str);
+        }
     }
 }

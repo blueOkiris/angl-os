@@ -5,11 +5,11 @@
 using namespace angl;
 using namespace io;
 
-bool Terminal::_hasBeeninit = false;
+bool termHasBeeninit_g = false;
 
-size_t Terminal::_row, Terminal::_col;
-TerminalColor Terminal::_color;
-uint16_t *Terminal::_buffer;
+size_t currRow_g, currCol_g;
+TerminalColor currColor_g;
+uint16_t *textBuffer_g;
 
 /*
  * Helper functions
@@ -34,50 +34,50 @@ inline size_t strLen(const char *str) {
     return len;
 }
 
+inline void putEntryAt(char c, TerminalColor color, size_t x, size_t y) {
+    const size_t index = y * VGA_WIDTH + x;
+    textBuffer_g[index] = makeVgaEntry(c, color);
+}
+
 /*
  * Main terminal functions
  */
-void Terminal::_putEntryAt(char c, TerminalColor color, size_t x, size_t y) {
-    const size_t index = y * VGA_WIDTH + x;
-    _buffer[index] = makeVgaEntry(c, color);
-}
-
-void Terminal::init() {
-    if(_hasBeeninit) {
+void terminal::init() {
+    if(termHasBeeninit_g) {
         return;
     }
 
-    _row = _col = 0;
-    _color = makeColor(TerminalColor::LightGray, TerminalColor::Black);
-    _buffer = (uint16_t *) VGA_MEMORY;
+    currRow_g = currCol_g = 0;
+    currColor_g = makeColor(TerminalColor::LightGray, TerminalColor::Black);
+    textBuffer_g = (uint16_t *) VGA_MEMORY;
     for(size_t y = 0; y < VGA_HEIGHT; y++) {
         for(size_t x = 0; x < VGA_WIDTH; x++) {
             const size_t index = y * VGA_WIDTH + x;
-            _buffer[index] = makeVgaEntry(' ', _color);
+            textBuffer_g[index] = makeVgaEntry(' ', currColor_g);
         }
     }
-    _hasBeeninit = true;
+    termHasBeeninit_g = true;
 }
 
-void Terminal::setColor(TerminalColor color) {
-    _color = color;
+void terminal::setColor(TerminalColor color) {
+    currColor_g = color;
 }
 
-void Terminal::putChar(char c) {
+void terminal::putChar(char c) {
     if(c == '\n') {
-        _col = VGA_WIDTH - 1;
+        currCol_g = VGA_WIDTH - 1;
     } else {
-        _putEntryAt(c, _color, _col, _row);
+        putEntryAt(c, currColor_g, currCol_g, currRow_g);
     }
-    if(++_col == VGA_WIDTH) {
-        _col = 0;
-        if(++_row == VGA_HEIGHT) {
-            _row = 0;
+    if(++currCol_g == VGA_WIDTH) {
+        currCol_g = 0;
+        if(++currRow_g == VGA_HEIGHT) {
+            currRow_g = 0;
         }
     }
 }
 
-void Terminal::putInteger(uint32_t d) {
+void terminal::putInteger(uint32_t d) {
     uint32_t currVal = d;
     while(currVal > 0) {
         putChar('0' + (currVal % 10));
@@ -85,7 +85,7 @@ void Terminal::putInteger(uint32_t d) {
     }
 }
 
-void Terminal::putStr(const char *str) {
+void terminal::putStr(const char *str) {
     size_t len = strLen(str);
     for(size_t ind = 0; ind < len; ind++) {
         putChar(str[ind]);
