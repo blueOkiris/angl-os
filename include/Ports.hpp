@@ -5,7 +5,7 @@
 
 namespace angl {
     namespace io {
-        namespace Port {
+        namespace port {
             void write(uint8_t port, uint8_t data);
             uint8_t read(uint8_t port);
         }

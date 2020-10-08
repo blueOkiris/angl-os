@@ -1,5 +1,6 @@
 #include <IdtGdt.hpp>
 #include <Terminal.hpp>
+#include <Timer.hpp>
 #include <Kernel.hpp>
 
 using namespace angl;
@@ -11,6 +12,10 @@ void angl::kernel::main() {
 
     io::terminal::init();
     io::terminal::putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
+
+    asm volatile ("int $0x3");
+
+    timer::init(50);
 
     while(true);
 }

@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <Terminal.hpp>
 #include <Ports.hpp>
+#include <Timer.hpp>
 #include <IsrIrq.hpp>
 
 using namespace angl;
@@ -16,15 +17,19 @@ void isr::handler(RegisterSet regs) {
 
 void irq::handler(RegisterSet regs) {
     if(regs.interrupNumber >= 40) {
-        io::Port::write(0xA0, 0x20); // Send reset signal to slave
+        io::port::write(0xA0, 0x20); // Send reset signal to slave
     }
 
-    io::Port::write(0x20, 0x20); // Send reset signal to master
+    io::port::write(0x20, 0x20); // Send reset signal to master
 
     io::terminal::init();
     switch(regs.interrupNumber) {
         case 0:
-            return;
+            break;
+        
+        case 32:
+            timer::handler(regs);
+            break;
 
         default:
             io::terminal::putStr("IRQ received, but no handler defined.\n");
