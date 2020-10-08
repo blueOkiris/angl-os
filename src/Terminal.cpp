@@ -1,24 +1,26 @@
 #include <stddef.h>
 #include <stdint.h>
-#include <Color.hpp>
 #include <Terminal.hpp>
 
 using namespace angl;
-using namespace terminal;
+using namespace io;
 
-Terminal Terminal::_instance;
 bool Terminal::_hasBeeninit = false;
+
+size_t Terminal::_row, Terminal::_col;
+TerminalColor Terminal::_color;
+uint16_t *Terminal::_buffer;
 
 /*
  * Helper functions
  */
-inline Color makeColor(Color fg_color, Color bg_color) {
-    return static_cast<Color>(
+inline TerminalColor makeColor(TerminalColor fg_color, TerminalColor bg_color) {
+    return static_cast<TerminalColor>(
         static_cast<uint8_t>(fg_color) | (static_cast<uint8_t>(bg_color) << 4)
     );
 }
 
-inline uint16_t makeVgaEntry(char c, Color color) {
+inline uint16_t makeVgaEntry(char c, TerminalColor color) {
     uint16_t char16 = c;
     uint16_t color16 = static_cast<uint8_t>(color);
     return char16 | (color16 << 8);
@@ -35,23 +37,18 @@ inline size_t strLen(const char *str) {
 /*
  * Main terminal functions
  */
-void Terminal::_putEntryAt(char c, Color color, size_t x, size_t y) {
+void Terminal::_putEntryAt(char c, TerminalColor color, size_t x, size_t y) {
     const size_t index = y * VGA_WIDTH + x;
     _buffer[index] = makeVgaEntry(c, color);
 }
 
-Terminal *Terminal::instance() {
-    if(!_hasBeeninit) {
-        _instance._init();
-        _hasBeeninit = true;
+void Terminal::init() {
+    if(_hasBeeninit) {
+        return;
     }
 
-    return &_instance;
-}
-
-void Terminal::_init() {
     _row = _col = 0;
-    _color = makeColor(Color::LightGray, Color::Black);
+    _color = makeColor(TerminalColor::LightGray, TerminalColor::Black);
     _buffer = (uint16_t *) VGA_MEMORY;
     for(size_t y = 0; y < VGA_HEIGHT; y++) {
         for(size_t x = 0; x < VGA_WIDTH; x++) {
@@ -59,12 +56,10 @@ void Terminal::_init() {
             _buffer[index] = makeVgaEntry(' ', _color);
         }
     }
+    _hasBeeninit = true;
 }
 
-Terminal::Terminal() {
-}
-
-void Terminal::setColor(Color color) {
+void Terminal::setColor(TerminalColor color) {
     _color = color;
 }
 

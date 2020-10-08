@@ -7,8 +7,8 @@ using namespace angl;
 using namespace kernel;
 
 void Isr::handler(RegisterSet regs) {
-    terminal::Terminal *term = terminal::Terminal::instance();
-    term->putStr("Received interrupt!\nInterrupt: 0x");
-    term->putInteger(regs.interrupNumber);
-    term->putChar('\n');
+    io::Terminal::init();
+    io::Terminal::putStr("Received interrupt!\nInterrupt: 0x");
+    io::Terminal::putInteger(regs.interrupNumber);
+    io::Terminal::putChar('\n');
 }
