@@ -16,4 +16,4 @@ ANGL stands for "ANGL is Not GNU nor Linux"
 
 `nasm` - For assembly
 
-`qemy` - For running
+`qemu-system-x86_64` - For running
