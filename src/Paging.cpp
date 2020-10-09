@@ -13,7 +13,7 @@ static uint32_t pageDir_g[1024] __attribute__((aligned(4096)));
 static uint32_t primaryPageTable[1024] __attribute__((aligned(4096)));
 static uint32_t kernelPageTable[1024] __attribute__((aligned(4096)));
 
-static uint32_t videoMemory = 0xB8000;
+static const uint32_t videoMemory = 0xB8000;
 
 void paging::init() {
     for(int i = 0; i < 1024; i++) {
