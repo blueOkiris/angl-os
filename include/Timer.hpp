@@ -5,11 +5,24 @@
 #include <IsrIrq.hpp>
 
 namespace angl {
-    namespace timer {
-        void init(uint32_t frequency);
-        uint32_t ticks();
-        void start();
-        void stop();
-        void handler(kernel::RegisterSet regs);
+    namespace device {        
+        class Timer {
+            private:
+                static Timer instance_g;
+                uint32_t _ticks;
+                
+                Timer();
+                
+            public:
+                static void handler(const kernel::RegisterSet &regs);
+                static Timer *instance();
+                
+                void setFrequency(const uint32_t &frequency);
+                void start();
+                void stop();
+                void tick();
+                
+                uint32_t ticks();
+        };
     }
 }

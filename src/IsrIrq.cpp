@@ -60,7 +60,7 @@ void interruptcontroller::irqHandler(RegisterSet regs) {
 
     switch(regs.interruptNumber) {    
         case 32:
-            timer::handler(regs);
+            device::Timer::handler(regs);
             break;
         
         case 46:

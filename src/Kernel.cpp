@@ -17,18 +17,20 @@ inline void testIdt() {
 inline void testIrqThroughTimer() {
     io::terminal::putStr("\nTesting IRQs...\n");
     io::terminal::putStr("  RTC test:\n");
-    timer::init(50);
-    timer::start();
-    uint32_t lastTicks = timer::ticks();
+    
+    auto timer = device::Timer::instance();
+    timer->setFrequency(50);
+    timer->start();
+    uint32_t lastTicks = timer->ticks();
     while(lastTicks < 10) {
-        if(lastTicks != timer::ticks()) {
-            lastTicks = timer::ticks();
+        if(lastTicks != timer->ticks()) {
+            lastTicks = timer->ticks();
             io::terminal::putStr("    Ticks: ");
-            io::terminal::putInteger(timer::ticks());
+            io::terminal::putInteger(timer->ticks());
             io::terminal::putChar('\n');
         }
     }
-    timer::stop();
+    timer->stop();
     io::terminal::putStr("  Done.\n");
     io::terminal::putStr("Done testing.\n");
 }
