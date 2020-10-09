@@ -39,5 +39,11 @@ void angl::kernel::main() {
 
     paging::init();
 
+    // Uncomment below to cause a page fault:
+    /*io::terminal::putStr("Forcing a page fault...\n");
+    uint32_t *ptr = (uint32_t *) 0xA0000000;
+    uint32_t doPageFault = *ptr;
+    io::terminal::putInteger(doPageFault);*/
+
     while(true);
 }

@@ -14,6 +14,12 @@ void isr::handler(RegisterSet regs) {
     io::terminal::putStr("  Received interrupt: ");
     io::terminal::putInteger(regs.interruptNumber);
     io::terminal::putChar('\n');
+
+    if(regs.interruptNumber == 14) {
+        io::terminal::putStr("Ya done messed up. That's a page fault, buddy!");
+        io::terminal::putStr("\nNot going to recover...");
+        while(true);
+    }
 }
 
 void irq::disable(uint32_t num) {

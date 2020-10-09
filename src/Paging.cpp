@@ -22,8 +22,6 @@ void paging::init() {
     }
     pageDir_g[0] = reinterpret_cast<uint32_t>(primaryPageTable) | 3;
 
-    irq::enable(14);
-
     // Enable paging
     load_page_directory(pageDir_g);
     enable_paging();
