@@ -24,7 +24,7 @@ void paging::init() {
 
     uint32_t kernelPageTable[1024] __attribute__((aligned(4096)));
     for(int i = 0; i < 1024; i++) {
-        kernelPageTable[i] = (0x4000000 + (i * 0x1000)) | 3; // Su | R/W | Pres
+        kernelPageTable[i] = (0x400000 + (i * 0x1000)) | 3; // Su | R/W | Pres
     }
 
     pageDir[0] = reinterpret_cast<uint32_t>(primaryPageTable) | 3;
