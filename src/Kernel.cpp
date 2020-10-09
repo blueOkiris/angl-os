@@ -41,10 +41,3 @@ void angl::kernel::main() {
 
     while(true);
 }
-
-void kernel::panic(const char *message) {
-    io::terminal::putStr("\nKernel panic!\n");
-    io::terminal::putStr(message);
-    io::terminal::putChar('\n');
-    while(true);
-}

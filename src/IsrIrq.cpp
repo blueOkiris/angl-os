@@ -59,7 +59,7 @@ void irq::handler(RegisterSet regs) {
         
         case 46:
             io::terminal::putStr("Page fault!");
-            panic("PAGE FAULT NOOOOOOOO!");
+            while(true);
             break;
 
         default:
