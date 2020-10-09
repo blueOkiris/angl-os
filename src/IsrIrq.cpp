@@ -3,6 +3,7 @@
 #include <Terminal.hpp>
 #include <Ports.hpp>
 #include <Timer.hpp>
+#include <Kernel.hpp>
 #include <IsrIrq.hpp>
 
 using namespace angl;
@@ -54,6 +55,11 @@ void irq::handler(RegisterSet regs) {
     switch(regs.interruptNumber) {    
         case 32:
             timer::handler(regs);
+            break;
+        
+        case 46:
+            io::terminal::putStr("Page fault!");
+            panic("PAGE FAULT NOOOOOOOO!");
             break;
 
         default:

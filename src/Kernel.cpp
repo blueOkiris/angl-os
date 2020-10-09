@@ -1,6 +1,7 @@
 #include <IdtGdt.hpp>
 #include <Terminal.hpp>
 #include <Timer.hpp>
+#include <Paging.hpp>
 #include <Kernel.hpp>
 
 using namespace angl;
@@ -36,5 +37,14 @@ void angl::kernel::main() {
     io::terminal::putStr("  Done.\n");
     io::terminal::putStr("Done testing.\n");
 
+    paging::init();
+
+    while(true);
+}
+
+void kernel::panic(const char *message) {
+    io::terminal::putStr("\nKernel panic!\n");
+    io::terminal::putStr(message);
+    io::terminal::putChar('\n');
     while(true);
 }
