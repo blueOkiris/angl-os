@@ -27,8 +27,14 @@ void paging::init() {
         kernelPageTable[i] = (0x400000 + (i * 0x1000)) | 3; // Su | R/W | Pres
     }
 
+    uint32_t fileSystemPageTable[1024] __attribute__((aligned(4096)));
+    for(int i = 0; i < 1024; i++) {
+        fileSystemPageTable[i] = (0x8000000 + (i * 0x1000)) | 3;
+    }
+
     pageDir[0] = reinterpret_cast<uint32_t>(primaryPageTable) | 3;
     pageDir[1] = reinterpret_cast<uint32_t>(kernelPageTable) | 3;
+    pageDir[2] = reinterpret_cast<uint32_t>(fileSystemPageTable) | 3;
 
     // Enable paging
     load_page_directory(pageDir);
