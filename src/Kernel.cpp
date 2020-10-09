@@ -50,8 +50,8 @@ void angl::kernel::main() {
     io::terminal::init();
     io::terminal::putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
 
-    //testIdt();
-    //testIrqThroughTimer();
+    testIdt();
+    testIrqThroughTimer();
     //testPageFault(); // Uncomment this function to cause a page fault
 
     while(true);

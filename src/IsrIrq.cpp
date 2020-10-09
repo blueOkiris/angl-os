@@ -9,7 +9,7 @@
 using namespace angl;
 using namespace kernel;
 
-void isr::handler(RegisterSet regs) {
+void interruptcontroller::isrHandler(RegisterSet regs) {
     io::terminal::init();
     io::terminal::putStr("  Received interrupt: ");
     io::terminal::putInteger(regs.interruptNumber);
@@ -22,7 +22,7 @@ void isr::handler(RegisterSet regs) {
     }
 }
 
-void irq::disable(uint32_t num) {
+void interruptcontroller::disableIrq(uint32_t num) {
     uint32_t current;
     
     if(num < 8) { // If in master PIC 0->8
@@ -36,7 +36,7 @@ void irq::disable(uint32_t num) {
     }
 }
 
-void irq::enable(uint32_t num) {
+void interruptcontroller::enableIrq(uint32_t num) {
     uint32_t current;
     
     if(num < 8) { // If in master PIC 0->8
@@ -50,7 +50,7 @@ void irq::enable(uint32_t num) {
     }
 }
 
-void irq::handler(RegisterSet regs) {
+void interruptcontroller::irqHandler(RegisterSet regs) {
     io::terminal::init();
 
     if(regs.interruptNumber >= 40) {

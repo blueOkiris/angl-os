@@ -18,11 +18,11 @@ uint32_t timer::ticks() {
 }
 
 void timer::start() {
-    kernel::irq::enable(0);
+    kernel::interruptcontroller::enableIrq(0);
 }
 
 void timer::stop() {
-    kernel::irq::disable(0);
+    kernel::interruptcontroller::disableIrq(0);
 }
 
 void timer::init(uint32_t frequency) {
