@@ -10,7 +10,7 @@ using namespace kernel;
 
 void isr::handler(RegisterSet regs) {
     io::terminal::init();
-    io::terminal::putStr("Received interrupt!\nInterrupt: ");
+    io::terminal::putStr("  Received interrupt: ");
     io::terminal::putInteger(regs.interruptNumber);
     io::terminal::putChar('\n');
 }
@@ -45,14 +45,13 @@ void irq::enable(uint32_t num) {
 
 void irq::handler(RegisterSet regs) {
     io::terminal::init();
-    io::terminal::putStr("Here!");
 
     if(regs.interruptNumber >= 40) {
         io::port::write(0xA0, 0x20); // Send reset signal to slave
     }
     io::port::write(0x20, 0x20); // Send reset signal to master
 
-    switch(regs.interruptNumber) {        
+    switch(regs.interruptNumber) {    
         case 32:
             timer::handler(regs);
             break;

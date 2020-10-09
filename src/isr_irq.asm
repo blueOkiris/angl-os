@@ -47,10 +47,10 @@ irq_common_stub:
 
     ; Reload old data selector
     pop     ebx
-    mov     ds, ax
-    mov     es, ax
-    mov     fs, ax
-    mov     gs, ax
+    mov     ds, bx
+    mov     es, bx
+    mov     fs, bx
+    mov     gs, bx
 
     popa
     add     esp, 8

@@ -88,8 +88,12 @@ void terminal::putChar(char c) {
 }
 
 void terminal::putInteger(uint32_t d) {
-    char digits[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    if(d == 0) {
+        putChar('0');
+        return;
+    }
 
+    char digits[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     uint32_t currVal = d;
     int digitsInd = 10;
     while(currVal > 0) {

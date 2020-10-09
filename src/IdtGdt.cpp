@@ -125,4 +125,5 @@ void idt::init() {
     setGate(47, reinterpret_cast<uint32_t>(irq15), 0x08, 0x8E);
 
     idt_flush(reinterpret_cast<uint32_t>(&idtPtr_g));
+    asm volatile ("sti");
 }

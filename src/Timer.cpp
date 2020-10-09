@@ -11,10 +11,18 @@ static uint32_t tick_g = 0;
 
 void timer::handler(kernel::RegisterSet regs) {
     tick_g++;
-    io::terminal::init();
-    io::terminal::putStr("Tick: ");
-    io::terminal::putInteger(tick_g);
-    io::terminal::putChar('\n');
+}
+
+uint32_t timer::ticks() {
+    return tick_g;
+}
+
+void timer::start() {
+    kernel::irq::enable(0);
+}
+
+void timer::stop() {
+    kernel::irq::disable(0);
 }
 
 void timer::init(uint32_t frequency) {
@@ -25,5 +33,4 @@ void timer::init(uint32_t frequency) {
     uint8_t high = static_cast<uint8_t>((divisor >> 8) & 0xFF);
     io::port::write(0x40, low);
     io::port::write(0x40, high);
-    kernel::irq::enable(0);
 }

@@ -20,7 +20,21 @@ void angl::kernel::main() {
     io::terminal::putStr("Done testing.\n");
 
     io::terminal::putStr("\nTesting IRQs...\n");
-    asm volatile ("int $32");
+    io::terminal::putStr("  RTC test:\n");
+    timer::init(50);
+    timer::start();
+    uint32_t lastTicks = timer::ticks();
+    while(lastTicks < 10) {
+        if(lastTicks != timer::ticks()) {
+            lastTicks = timer::ticks();
+            io::terminal::putStr("    Ticks: ");
+            io::terminal::putInteger(timer::ticks());
+            io::terminal::putChar('\n');
+        }
+    }
+    timer::stop();
+    io::terminal::putStr("  Done.\n");
+    io::terminal::putStr("Done testing.\n");
 
     while(true);
 }

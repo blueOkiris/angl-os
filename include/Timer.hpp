@@ -6,7 +6,10 @@
 
 namespace angl {
     namespace timer {
-        void handler(kernel::RegisterSet regs);
         void init(uint32_t frequency);
+        uint32_t ticks();
+        void start();
+        void stop();
+        void handler(kernel::RegisterSet regs);
     }
 }
