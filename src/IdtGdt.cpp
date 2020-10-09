@@ -44,10 +44,10 @@ void gdt::init() {
     gdtPtr_g.base = reinterpret_cast<uint32_t>(&gdt_g);
 
     setGate(0, 0, 0, 0, 0);
-    setGate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF); // Kernel code segment
-    setGate(2, 0, 0xFFFFFFFF, 0x92, 0xCF); // Kernel data segment
-    setGate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User code segment
-    setGate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User data segment
+    setGate(1, 0, 0x0000FFFF, 0x9A, 0xCF); // Kernel code segment
+    setGate(2, 0, 0x0000FFFF, 0x92, 0xCF); // Kernel data segment
+    setGate(3, 0, 0x0000FFFF, 0xFA, 0xCF); // User code segment
+    setGate(4, 0, 0x0000FFFF, 0xF2, 0xCF); // User data segment
 
     gdt_flush(reinterpret_cast<uint32_t>(&gdtPtr_g));
 }
