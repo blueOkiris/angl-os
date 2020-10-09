@@ -41,8 +41,18 @@ namespace angl {
                 void init();
         };
         
-        namespace idt {
-            void init();
-        }
+        class Idt {
+            private:
+                IdtEntry _idt[256];
+                DescPtr _ptr;
+                
+                void _setGate(
+                    const int &num, const uint32_t &base,
+                    const uint16_t &selector, const uint8_t &flags
+                );
+            
+            public:
+                void init();
+        };
     }
 }

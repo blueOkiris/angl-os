@@ -43,7 +43,8 @@ inline void testPageFault() {
 void angl::kernel::main() {
     Gdt gdt;
     gdt.init();
-    idt::init();
+    Idt idt;
+    idt.init();
     //paging::init();
 
     io::terminal::init();
