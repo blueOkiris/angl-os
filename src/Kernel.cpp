@@ -41,9 +41,10 @@ inline void testPageFault() {
 }
 
 void angl::kernel::main() {
-    gdt::init();
+    Gdt gdt;
+    gdt.init();
     idt::init();
-    paging::init();
+    //paging::init();
 
     io::terminal::init();
     io::terminal::putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");

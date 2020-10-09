@@ -26,10 +26,20 @@ namespace angl {
             uint16_t limit;
             uint32_t base;
         } __attribute__((packed));
-
-        namespace gdt {
-            void init();
-        }
+        
+        class Gdt {
+            private:
+                GdtEntry _gdt[5];
+                DescPtr _ptr;
+                
+                void _setGate(
+                    const int &num, const uint32_t &base, const uint32_t &limit,
+                    const uint8_t &access, const uint8_t &granularity
+                );
+            
+            public:
+                void init();
+        };
         
         namespace idt {
             void init();
