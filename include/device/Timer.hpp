@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include <IsrIrq.hpp>
+#include <kernel/IsrIrq.hpp>
 
 namespace angl {
     namespace device {        

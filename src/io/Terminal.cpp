@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <stdint.h>
-#include <Ports.hpp>
-#include <Terminal.hpp>
+#include <io/Ports.hpp>
+#include <io/Terminal.hpp>
 
 using namespace angl;
 using namespace io;

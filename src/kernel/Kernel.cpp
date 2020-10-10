@@ -1,7 +1,8 @@
-#include <Timer.hpp>
-#include <IdtGdt.hpp>
-#include <Terminal.hpp>
-#include <Kernel.hpp>
+#include <device/Timer.hpp>
+#include <device/Keyboard.hpp>
+#include <io/Terminal.hpp>
+#include <kernel/IdtGdt.hpp>
+#include <kernel/Kernel.hpp>
 
 using namespace angl;
 using namespace kernel;
@@ -46,6 +47,7 @@ void Kernel::run() {
     _gdt.init();
     _idt.init();
     _terminal = io::Terminal::instance();
+    _interruptController = InterruptController::instance();
     
     _enablePaging();
     
@@ -53,7 +55,7 @@ void Kernel::run() {
 
     _testIdt();
     _testIrqThroughTimer();
-    _testPageFault(); // Uncomment this function to cause a page fault
+    //_testPageFault(); // Uncomment this function to cause a page fault
 
     while(true);
 }

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <IdtGdt.hpp>
-#include <Terminal.hpp>
+#include <kernel/IdtGdt.hpp>
+#include <kernel/IsrIrq.hpp>
+#include <io/Terminal.hpp>
 
 namespace angl {
     namespace kernel {
@@ -10,6 +11,7 @@ namespace angl {
                 Gdt _gdt;
                 Idt _idt;
                 io::Terminal *_terminal;
+                InterruptController *_interruptController;
                 
                 static void _pageFaultHandler(const RegisterSet &regs);
                 void _enablePaging();

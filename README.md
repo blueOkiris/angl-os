@@ -16,6 +16,8 @@ Now the IDT's data is a set of functions. They trigger on interrupts 0-31 and af
 
 An example of this is the `Timer` class that represents the processor's real time clock. It's a singleton and when initialized, it can enable itself with `start`, disable itself with `stop`, and reinitialize itself with `setFrequency`. It adds a handler that increases a counter based on how the RTC has been configured.
 
+The `Keyboard` works in a similar way. You get a pointer to it, and you check to see if there's been any input.
+
 There's also a handler for a page fault exception which happens after you enable paging by calling the Kernel's `_enablePaging` function located in `Paging.cpp`. As it's part of the Kernel, there is no `Paging.hpp`. Currently it sets up three page tables, the first which basically just contains video memory, the kernel page which contains the `.text` linker section, and a filesystem page which will be used by the VFS.
 
 Finally, another Singleton that exists is the `Terminal` class which allows one to interface with video memory. You can put a character, a string, or a (decimal) integer. It's files are `Terminal.hpp` and `Terminal.cpp`.

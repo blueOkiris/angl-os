@@ -1,8 +1,8 @@
 #include <stddef.h>
 #include <stdint.h>
-#include <IsrIrq.hpp>
-#include <Ports.hpp>
-#include <IdtGdt.hpp>
+#include <io/Ports.hpp>
+#include <kernel/IsrIrq.hpp>
+#include <kernel/IdtGdt.hpp>
 
 using namespace angl;
 using namespace kernel;

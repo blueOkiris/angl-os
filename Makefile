@@ -11,7 +11,10 @@ LDFLAGS :=  -nostdlib -nodefaultlibs -lgcc -m32
 # Autogen stuff and helper stuff
 LINKER :=   src/linker.ld
 GRUB :=     src/grub.cfg
-SRC :=      $(wildcard src/*.asm) $(wildcard src/*.cpp)
+SRC :=      $(wildcard src/*.asm) $(wildcard src/*.cpp) \
+            $(wildcard src/device/*.asm) $(wildcard src/device/*.cpp) \
+            $(wildcard src/io/*.asm) $(wildcard src/io/*.cpp) \
+            $(wildcard src/kernel/*.asm) $(wildcard src/kernel/*.cpp)
 OBJS :=     $(subst .cpp,.cpp.o,$(subst .asm,.asm.o,$(subst src,obj,$(SRC))))
 DISC :=     iso/$(OSNAME).iso
 
@@ -20,6 +23,9 @@ all : $(DISC)
 
 obj/%.cpp.o : src/%.cpp
 	mkdir -p obj/
+	mkdir -p obj/io
+	mkdir -p obj/device
+	mkdir -p obj/kernel
 	$(CPPC) $(CPPFLAGS) -c -o $@ $<
 
 obj/%.asm.o : src/%.asm

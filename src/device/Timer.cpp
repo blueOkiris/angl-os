@@ -1,9 +1,9 @@
 #include <stddef.h>
 #include <stdint.h>
-#include <IsrIrq.hpp>
-#include <Terminal.hpp>
-#include <Ports.hpp>
-#include <Timer.hpp>
+#include <kernel/IsrIrq.hpp>
+#include <io/Terminal.hpp>
+#include <io/Ports.hpp>
+#include <device/Timer.hpp>
 
 using namespace angl;
 using namespace device;

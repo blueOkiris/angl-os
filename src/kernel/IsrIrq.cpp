@@ -1,10 +1,10 @@
 #include <stddef.h>
 #include <stdint.h>
-#include <Terminal.hpp>
-#include <Ports.hpp>
-#include <Timer.hpp>
-#include <Kernel.hpp>
-#include <IsrIrq.hpp>
+#include <io/Terminal.hpp>
+#include <io/Ports.hpp>
+#include <device/Timer.hpp>
+#include <kernel/Kernel.hpp>
+#include <kernel/IsrIrq.hpp>
 
 using namespace angl;
 using namespace kernel;

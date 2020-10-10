@@ -1,8 +1,8 @@
 #include <stddef.h>
 #include <stdint.h>
-#include <IsrIrq.hpp>
-#include <Terminal.hpp>
-#include <Kernel.hpp>
+#include <io/Terminal.hpp>
+#include <kernel/IsrIrq.hpp>
+#include <kernel/Kernel.hpp>
 
 using namespace angl;
 using namespace kernel;
@@ -47,8 +47,7 @@ void Kernel::_enablePaging() {
     pageDir[1] = reinterpret_cast<uint32_t>(kernelPageTable) | 3;
     pageDir[2] = reinterpret_cast<uint32_t>(fileSystemPageTable) | 3;
 
-    auto interruptController = InterruptController::instance();
-    interruptController->handlers[14] = _pageFaultHandler;
+    _interruptController->handlers[14] = _pageFaultHandler;
 
     // Enable paging
     load_page_directory(pageDir);
