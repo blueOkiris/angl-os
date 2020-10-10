@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <IsrIrq.hpp>
-#include <Paging.hpp>
+#include <Kernel.hpp>
 
 using namespace angl;
 using namespace kernel;
@@ -9,7 +9,7 @@ using namespace kernel;
 extern "C" void load_page_directory(uint32_t *);
 extern "C" void enable_paging();
 
-void paging::init() {
+void Kernel::_enablePaging() {
     uint32_t pageDir[1024] __attribute__((aligned(4096)));
     for(int i = 0; i < 1024; i++) {
         // Set everything to not present

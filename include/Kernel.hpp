@@ -11,6 +11,8 @@ namespace angl {
                 Idt _idt;
                 io::Terminal *_terminal;
                 
+                void _enablePaging();
+                
                 void _testIdt();
                 void _testIrqThroughTimer();
                 void _testPageFault();

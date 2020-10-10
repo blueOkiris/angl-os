@@ -1,7 +1,6 @@
+#include <Timer.hpp>
 #include <IdtGdt.hpp>
 #include <Terminal.hpp>
-#include <Timer.hpp>
-#include <Paging.hpp>
 #include <Kernel.hpp>
 
 using namespace angl;
@@ -48,7 +47,7 @@ void Kernel::run() {
     _idt.init();
     _terminal = io::Terminal::instance();
     
-    //paging::init();
+    //_enablePaging();
     
     _terminal->putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
 
