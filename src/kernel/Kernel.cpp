@@ -7,6 +7,24 @@
 using namespace angl;
 using namespace kernel;
 
+void Kernel::run() {
+    _gdt.init();
+    _idt.init();
+    _terminal = io::Terminal::instance();
+    _interruptController = InterruptController::instance();
+    
+    _enablePaging();
+    
+    _terminal->putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
+
+    _testIdt();
+    _testIrqThroughTimer();
+    _testKeyboard();
+    //_testPageFault();
+
+    while(true);
+}
+
 void Kernel::_testIdt() {
     _terminal->putStr("\nTesting IDT...\n");
     asm volatile ("int $0");
@@ -60,22 +78,4 @@ void Kernel::_testPageFault() {
     uint32_t *ptr = (uint32_t *) 0xA0000000;
     uint32_t doPageFault = *ptr;
     _terminal->putInteger(doPageFault);
-}
-
-void Kernel::run() {
-    _gdt.init();
-    _idt.init();
-    _terminal = io::Terminal::instance();
-    _interruptController = InterruptController::instance();
-    
-    _enablePaging();
-    
-    _terminal->putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
-
-    _testIdt();
-    _testIrqThroughTimer();
-    _testKeyboard();
-    //_testPageFault();
-
-    while(true);
 }
