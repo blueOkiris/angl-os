@@ -1,7 +1,7 @@
 ; Stage 2 - Bootloader
 [bits 32]
 global start
-extern _ZN4angl6kernel4mainEv
+extern _ZN4angl6kernel6Kernel3runEv
 
 ; This is needed to use grub
 section .mbHeader
@@ -18,4 +18,4 @@ MultiBootHeader:
 
 ; Actual loader
 start:
-    call    _ZN4angl6kernel4mainEv  ; C++'s angl::kernel::main
+    call    _ZN4angl6kernel6Kernel3runEv  ; C++ kernel's run func
