@@ -47,12 +47,12 @@ void Kernel::run() {
     _idt.init();
     _terminal = io::Terminal::instance();
     
-    //_enablePaging();
+    _enablePaging();
     
     _terminal->putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
 
-    _testIdt();
-    _testIrqThroughTimer();
+    //_testIdt();
+    //_testIrqThroughTimer();
     //_testPageFault(); // Uncomment this function to cause a page fault
 
     while(true);
