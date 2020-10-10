@@ -10,16 +10,16 @@ using namespace kernel;
 void Kernel::run() {
     _gdt.init();
     _idt.init();
-    _terminal = io::Terminal::instance();
-    _interruptController = InterruptController::instance();
-    
     _enablePaging();
+    _fs.init();
     
+    _terminal = io::Terminal::instance();
     _terminal->putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
 
     _testIdt();
     _testIrqThroughTimer();
     _testKeyboard();
+    _testFileSystem();
     //_testPageFault();
 
     while(true);
@@ -71,6 +71,25 @@ void Kernel::_testKeyboard() {
     }
     
     _terminal->putStr("\nDone testing.\n");
+}
+
+void Kernel::_testFileSystem() {
+    _terminal->putStr("Testing file system...\n");
+    
+    _terminal->putStr("  Root file system:\n");
+    auto i = 0;
+    io::DirEntry dirEntry = { NULL, NULL, NULL };
+    do {
+        dirEntry = _fs.readDirEntryByIndex(i++);
+        if(dirEntry.fileName != NULL) {
+            _terminal->putStr("  ");
+            _terminal->putStr(dirEntry.fileName);
+            _terminal->putStr("    ");
+            _terminal->putInteger(*(dirEntry.fileType));
+            _terminal->putChar('\n');
+        }
+    } while(dirEntry.fileName != NULL);
+    _terminal->putStr("Done testing.\n");
 }
 
 void Kernel::_testPageFault() {
