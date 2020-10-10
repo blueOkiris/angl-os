@@ -11,10 +11,10 @@ namespace angl {
                 static Timer _instance;
                 uint32_t _ticks;
                 
+                static void _handler(const kernel::RegisterSet &regs);
                 Timer();
                 
             public:
-                static void handler(const kernel::RegisterSet &regs);
                 static Timer *instance();
                 
                 void setFrequency(const uint32_t &frequency);

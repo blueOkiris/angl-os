@@ -1,7 +1,7 @@
 [bits 32]
 
-extern _ZN4angl6kernel19interruptcontroller10isrHandlerENS0_11RegisterSetE
-extern _ZN4angl6kernel19interruptcontroller10irqHandlerENS0_11RegisterSetE
+extern _ZN4angl6kernel19InterruptController10isrHandlerENS0_11RegisterSetE
+extern _ZN4angl6kernel19InterruptController10irqHandlerENS0_11RegisterSetE
 
 isr_common_stub:
     pusha
@@ -16,7 +16,7 @@ isr_common_stub:
     mov     fs, ax
     mov     gs, ax
     
-    call _ZN4angl6kernel19interruptcontroller10isrHandlerENS0_11RegisterSetE
+    call _ZN4angl6kernel19InterruptController10isrHandlerENS0_11RegisterSetE
 
     ; Reload old data segment
     pop     eax
@@ -43,7 +43,7 @@ irq_common_stub:
     mov     fs, ax
     mov     gs, ax
 
-    call _ZN4angl6kernel19interruptcontroller10irqHandlerENS0_11RegisterSetE
+    call _ZN4angl6kernel19InterruptController10irqHandlerENS0_11RegisterSetE
 
     ; Reload old data selector
     pop     ebx

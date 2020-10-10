@@ -10,7 +10,7 @@ using namespace device;
 
 Timer Timer::_instance = Timer();
 
-void Timer::handler(const kernel::RegisterSet &regs) {
+void Timer::_handler(const kernel::RegisterSet &regs) {
     instance()->tick();
 }
 
@@ -19,12 +19,13 @@ Timer *Timer::instance() {
 }
 
 Timer::Timer() {
-    _ticks = 0;
     setFrequency(50);
 }
 
 void Timer::setFrequency(const uint32_t &frequency) {
     _ticks = 0;
+    auto interruptController = kernel::InterruptController::instance();
+    interruptController->handlers[32] = _handler;
     
     const uint32_t divisor = 1193180 / frequency;
     io::port::write(0x43, 0x36);
@@ -36,11 +37,13 @@ void Timer::setFrequency(const uint32_t &frequency) {
 }
 
 void Timer::start() {
-    kernel::interruptcontroller::enableIrq(0);
+    auto interruptController = kernel::InterruptController::instance();
+    interruptController->enableIrq(0);
 }
 
 void Timer::stop() {
-    kernel::interruptcontroller::disableIrq(0);
+    auto interruptController = kernel::InterruptController::instance();
+    interruptController->disableIrq(0);
 }
 
 void Timer::tick() {

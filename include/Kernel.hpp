@@ -11,6 +11,7 @@ namespace angl {
                 Idt _idt;
                 io::Terminal *_terminal;
                 
+                static void _pageFaultHandler(const RegisterSet &regs);
                 void _enablePaging();
                 
                 void _testIdt();

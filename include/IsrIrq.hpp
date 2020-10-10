@@ -59,11 +59,19 @@ namespace angl {
             uint32_t eip, cs, eflags, useresp, ss;
         } __attribute__((packed));
         
-        namespace interruptcontroller {
-            void isrHandler(RegisterSet regs);
-            void enableIrq(uint32_t num);
-            void disableIrq(uint32_t num);
-            void irqHandler(RegisterSet regs);
-        }
+        class InterruptController {
+            private:
+                static InterruptController _instance;
+                
+            public:
+                void (*handlers[48])(const RegisterSet &regs);
+                
+                static void isrHandler(RegisterSet regs);
+                static void irqHandler(RegisterSet regs);
+                static InterruptController *instance();
+                
+                void enableIrq(const uint32_t &num);
+                void disableIrq(const uint32_t &num);
+        };
     }
 }

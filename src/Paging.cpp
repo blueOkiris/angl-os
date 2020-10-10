@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <IsrIrq.hpp>
+#include <Terminal.hpp>
 #include <Kernel.hpp>
 
 using namespace angl;
@@ -8,6 +9,13 @@ using namespace kernel;
 
 extern "C" void load_page_directory(uint32_t *);
 extern "C" void enable_paging();
+
+void Kernel::_pageFaultHandler(const RegisterSet &regs) {
+    auto terminal = io::Terminal::instance();
+    terminal->putStr("Ya done messed up. That's a page fault, buddy!");
+    terminal->putStr("\nNot going to recover...");
+    while(true);
+}
 
 void Kernel::_enablePaging() {
     uint32_t pageDir[1024] __attribute__((aligned(4096)));
@@ -38,6 +46,9 @@ void Kernel::_enablePaging() {
     pageDir[0] = reinterpret_cast<uint32_t>(primaryPageTable) | 3;
     pageDir[1] = reinterpret_cast<uint32_t>(kernelPageTable) | 3;
     pageDir[2] = reinterpret_cast<uint32_t>(fileSystemPageTable) | 3;
+
+    auto interruptController = InterruptController::instance();
+    interruptController->handlers[14] = _pageFaultHandler;
 
     // Enable paging
     load_page_directory(pageDir);
