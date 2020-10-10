@@ -47,6 +47,7 @@ iso/boot/$(OSNAME)-kernel : $(OBJS) $(LINKER)
 $(DISC) : iso/boot/$(OSNAME)-kernel $(GRUB)
 	mkdir -p iso/boot/grub
 	cp $(GRUB) iso/boot/grub
+	cp filesys_img iso
 	grub-mkrescue iso --output=$(DISC)
 
 .PHONY : run

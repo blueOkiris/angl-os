@@ -46,7 +46,8 @@ void Kernel::_enablePaging() {
     pageDir[0] = reinterpret_cast<uint32_t>(primaryPageTable) | 3;
     pageDir[1] = reinterpret_cast<uint32_t>(kernelPageTable) | 3;
     pageDir[2] = reinterpret_cast<uint32_t>(fileSystemPageTable) | 3;
-
+    
+    auto _interruptController = InterruptController::instance();
     _interruptController->handlers[14] = _pageFaultHandler;
 
     // Enable paging
