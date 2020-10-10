@@ -17,22 +17,22 @@ void Kernel::_enablePaging() {
     }
 
     uint32_t primaryPageTable[1024] __attribute__((aligned(4096)));
-    for(int i = 0; i < 260; i++) {
-        primaryPageTable[i] = (i * 0x1000) | 3;
+    for(int i = 0; i < 128; i++) {
+        primaryPageTable[i] = (i * 0x1000) | 3; // Su | Read/Write | Present
     }
-    for(int i = 260; i < 1024; i++) {
+    for(int i = 128; i < 1024; i++) {
         primaryPageTable[i] = (i * 0x1000) | 2; // Su | Read/Write | Not Present
     }
     primaryPageTable[0xB8000 / 0x1000] = 0xB8000 | 3; // Video present
 
     uint32_t kernelPageTable[1024] __attribute__((aligned(4096)));
     for(int i = 0; i < 1024; i++) {
-        kernelPageTable[i] = (0x400000 + (i * 0x1000)) | 2; // Su | R/W | Pres
+        kernelPageTable[i] = (0x400000 + (i * 0x1000)) | 3; // Su | R/W | Pres
     }
 
     uint32_t fileSystemPageTable[1024] __attribute__((aligned(4096)));
     for(int i = 0; i < 1024; i++) {
-        fileSystemPageTable[i] = (0x8000000 + (i * 0x1000)) | 2;
+        fileSystemPageTable[i] = (0x8000000 + (i * 0x1000)) | 3;
     }
 
     pageDir[0] = reinterpret_cast<uint32_t>(primaryPageTable) | 3;

@@ -32,7 +32,7 @@ clean :
 	rm -rf iso/
 
 # Main build project
-iso/boot/$(OSNAME)-kernel : $(OBJS)
+iso/boot/$(OSNAME)-kernel : $(OBJS) $(LINKER)
 	rm -rf iso/
 	mkdir -p iso
 	mkdir -p iso/boot
