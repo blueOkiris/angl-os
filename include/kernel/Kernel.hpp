@@ -18,6 +18,7 @@ namespace angl {
                 
                 void _testIdt();
                 void _testIrqThroughTimer();
+                void _testKeyboard();
                 void _testPageFault();
                 
             public:

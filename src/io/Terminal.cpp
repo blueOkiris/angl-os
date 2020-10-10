@@ -41,7 +41,7 @@ inline void putEntryAt(
 }
 
 inline void shiftScreenUp(const TerminalColor &color) {
-    for(size_t y = 1; y < VGA_HEIGHT - 1; y++) {
+    for(size_t y = 1; y < VGA_HEIGHT; y++) {
         for(size_t x = 0; x < VGA_WIDTH; x++) {
             const size_t prevInd = (y - 1) * VGA_WIDTH + x;
             const size_t currInd = y * VGA_WIDTH + x;

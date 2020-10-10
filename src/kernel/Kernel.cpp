@@ -36,6 +36,25 @@ void Kernel::_testIrqThroughTimer() {
     _terminal->putStr("Done testing.\n");
 }
 
+void Kernel::_testKeyboard() {
+    _terminal->putStr("\nTesting keyboard...\n");
+    _terminal->putStr("Press Escape to quit!\n");
+    
+    auto keyboard = device::Keyboard::instance();
+    while(!keyboard->getState(device::KeyCode::Escape).pressed) {
+        if(keyboard->refreshed) {
+            if(keyboard->last().pressed 
+                    && keyboard->last().value != device::KeyCode::LeftShift
+                    && keyboard->last().value != device::KeyCode::RightShift) {
+                _terminal->putChar(keyboard->last().toChar());
+            }
+            keyboard->refreshed = false;
+        }
+    }
+    
+    _terminal->putStr("\nDone testing.\n");
+}
+
 void Kernel::_testPageFault() {
     _terminal->putStr("Forcing a page fault...\n");
     uint32_t *ptr = (uint32_t *) 0xA0000000;
@@ -55,7 +74,8 @@ void Kernel::run() {
 
     _testIdt();
     _testIrqThroughTimer();
-    //_testPageFault(); // Uncomment this function to cause a page fault
+    _testKeyboard();
+    //_testPageFault();
 
     while(true);
 }
