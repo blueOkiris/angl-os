@@ -2,6 +2,12 @@ ENTRY(start)
 
 SECTIONS
 {
+	/* This is for my bootloader, and it isn't used by the grub */
+	. = 0x7C00;
+	.bootsect : {
+		*(.bootsect)
+	}
+	
 	/* First put the multiboot header, as it is required to be put very early
 	   early in the image or the bootloader won't recognize the file format.
 	   Next we'll put the .text section. */

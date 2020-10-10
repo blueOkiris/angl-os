@@ -20,14 +20,24 @@ There's also a handler for a page fault exception which happens after you enable
 
 Finally, another Singleton that exists is the `Terminal` class which allows one to interface with video memory. You can put a character, a string, or a (decimal) integer. It's files are `Terminal.hpp` and `Terminal.cpp`.
 
+## Bootloader Options
+
+I'd like to write my own bootloader, but after messing around, it's going to take more work, so right now, you can only use GRUB.
+
 ## Dependencies
 
-`grub` - Not needed for your system to use (I use refind), but for `grub-mkrescue`
+If you want to use the GRUB bootloader, you'll need:
 
-`xorriso` - Needed for `grub-mkrescue` to work
+ 1. `grub` - Not needed for your system to use (I use refind), but for `grub-mkrescue`
 
-`gcc` - For c code
+ 2. `xorriso` - Needed for `grub-mkrescue` to work
 
-`nasm` - For assembly
+For general compiling, you'll need:
 
-`qemu-system-x86_64` - For running
+ 1. `gcc` - For c code
+
+ 2. `nasm` - For assembly
+
+For emulation, you'll need:
+
+ 1. `qemu-system-x86_64` - For running
