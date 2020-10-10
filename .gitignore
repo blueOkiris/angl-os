@@ -1,4 +1,4 @@
 *.o
 obj/
-iso/
+disc/
 .vscode/

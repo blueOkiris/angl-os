@@ -30,9 +30,7 @@ I'd like to write my own bootloader, but after messing around, it's going to tak
 
 If you want to use the GRUB bootloader, you'll need:
 
- 1. `grub` - Not needed for your system to use (I use refind), but for `grub-mkrescue`
-
- 2. `xorriso` - Needed for `grub-mkrescue` to work
+ 1. `grub` - Not needed for your system to use, but for creating disk
 
 For general compiling, you'll need:
 

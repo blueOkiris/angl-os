@@ -17,5 +17,7 @@ MultiBootHeader:
     dd CHECKSUM
 
 ; Actual loader
+section .text
+align 0x4
 start:
     call    _ZN4angl6kernel6Kernel3runEv  ; C++ kernel's run func

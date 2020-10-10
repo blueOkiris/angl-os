@@ -1,12 +1,13 @@
 # Project settings
 OSNAME :=   angl-os
+DISCFLDR := disc
 AS :=       nasm
-ASFLAGS :=  -f elf
+ASFLAGS :=  -f elf32
 CPPC :=     g++
 CPPFLAGS := -Iinclude -m32 -O2 -Wall -Werror \
             -fno-rtti -ffreestanding -fno-exceptions
-LD :=       gcc
-LDFLAGS :=  -nostdlib -nodefaultlibs -lgcc -m32
+LD :=       ld
+LDFLAGS :=  -static -m elf_i386
 
 # Autogen stuff and helper stuff
 LINKER :=   src/linker.ld
@@ -16,7 +17,7 @@ SRC :=      $(wildcard src/*.asm) $(wildcard src/*.cpp) \
             $(wildcard src/io/*.asm) $(wildcard src/io/*.cpp) \
             $(wildcard src/kernel/*.asm) $(wildcard src/kernel/*.cpp)
 OBJS :=     $(subst .cpp,.cpp.o,$(subst .asm,.asm.o,$(subst src,obj,$(SRC))))
-DISC :=     iso/$(OSNAME).iso
+DISC :=     $(DISCFLDR)/$(OSNAME).img
 
 .PHONY : all
 all : $(DISC)
@@ -35,20 +36,20 @@ obj/%.asm.o : src/%.asm
 .PHONY : clean
 clean :
 	rm -rf obj/
-	rm -rf iso/
+	rm -rf $(DISCFLDR)/
 
 # Main build project
-iso/boot/$(OSNAME)-kernel : $(OBJS) $(LINKER)
-	rm -rf iso/
-	mkdir -p iso
-	mkdir -p iso/boot
-	$(LD) $(OBJS) -T $(LINKER) -o iso/boot/$(OSNAME)-kernel $(LDFLAGS)
+$(DISCFLDR)/boot/$(OSNAME)-kernel : $(OBJS) $(LINKER)
+	rm -rf $(DISCFLDR)/
+	mkdir -p $(DISCFLDR)
+	mkdir -p $(DISCFLDR)/boot
+	$(LD) $(OBJS) -T $(LINKER) -o $(DISCFLDR)/boot/$(OSNAME)-kernel $(LDFLAGS)
 
-$(DISC) : iso/boot/$(OSNAME)-kernel $(GRUB)
-	mkdir -p iso/boot/grub
-	cp $(GRUB) iso/boot/grub
-	grub-mkrescue iso --output=$(DISC)
+$(DISC) : $(DISCFLDR)/boot/$(OSNAME)-kernel $(GRUB)
+	mkdir -p $(DISCFLDR)/boot/grub
+	cp $(GRUB) $(DISCFLDR)/boot/grub
+	grub-mkrescue $(DISCFLDR) --output=$(DISC)
 
 .PHONY : run
 run : $(DISC)
-	qemu-system-x86_64 iso/angl-os.iso
+	qemu-system-x86_64 $(DISC)

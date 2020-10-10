@@ -1,5 +1,5 @@
+OUTPUT_FORMAT(elf32-i386)
 ENTRY(start)
-
 SECTIONS
 {	
 	/* First put the multiboot header, as it is required to be put very early
