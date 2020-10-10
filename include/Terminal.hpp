@@ -15,16 +15,31 @@ namespace angl {
             Brown = 6,          LightGray = 7,      DarkGray = 8,
             LightBlue = 9,      LightGreen = 10,    LightCyan = 11,
             LightRed = 12,      LightMagenta = 13,  LightBrown = 14,
-            Whit = 15
+            White = 15
         };
-
-        namespace terminal {
-            void init();
-
-            void setColor(TerminalColor color);
-            void putChar(char c);
-            void putInteger(uint32_t d);
-            void putStr(const char *str);
-        }
+        
+        class Terminal {
+            private:
+                static Terminal _instance;
+                static bool _hasInitialized;
+                
+                size_t _row, _col;
+                TerminalColor _color;
+                
+                void init();
+                void _putEntryAt(
+                    const char &c, const TerminalColor &color,
+                    const size_t &x, const size_t &y
+                );
+                void _updateCursor(const size_t &x, const size_t &y);
+            
+            public:
+                static Terminal *instance();
+            
+                void setColor(const TerminalColor &color);
+                void putChar(const char &c);
+                void putInteger(const uint32_t &d);
+                void putStr(const char *str);
+        };
     }
 }

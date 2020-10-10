@@ -6,24 +6,22 @@
 using namespace angl;
 using namespace io;
 
-static bool termHasBeeninit_g = false;
-
-static size_t currRow_g, currCol_g;
-static TerminalColor currColor_g;
-static uint16_t *textBuffer_g;
+Terminal Terminal::_instance;
+bool Terminal::_hasInitialized = false;
 
 /*
  * Helper functions
  */
-inline TerminalColor makeColor(TerminalColor fg_color, TerminalColor bg_color) {
+inline TerminalColor makeColor(
+        const TerminalColor &fg_color, const TerminalColor &bg_color) {
     return static_cast<TerminalColor>(
         static_cast<uint8_t>(fg_color) | (static_cast<uint8_t>(bg_color) << 4)
     );
 }
 
-inline uint16_t makeVgaEntry(char c, TerminalColor color) {
-    uint16_t char16 = c;
-    uint16_t color16 = static_cast<uint8_t>(color);
+inline uint16_t makeVgaEntry(const char &c, const TerminalColor &color) {
+    const uint16_t char16 = c;
+    const uint16_t color16 = static_cast<uint8_t>(color);
     return char16 | (color16 << 8);
 }
 
@@ -35,59 +33,65 @@ inline size_t strLen(const char *str) {
     return len;
 }
 
-inline void putEntryAt(char c, TerminalColor color, size_t x, size_t y) {
-    const size_t index = y * VGA_WIDTH + x;
-    textBuffer_g[index] = makeVgaEntry(c, color);
+/*
+ * Main terminal functions
+ */
+
+Terminal *Terminal::instance() {
+    if(!_hasInitialized) {
+        _instance.init();
+        _hasInitialized = true;
+    }
+    
+    return &_instance;
 }
 
-inline void updateCursor() {
-   uint16_t cursorLocation = currRow_g * VGA_WIDTH + currCol_g;
+void Terminal::_putEntryAt(
+        const char &c, const TerminalColor &color,
+        const size_t &x, const size_t &y) {
+    const size_t index = y * VGA_WIDTH + x;
+    *(uint16_t *) (VGA_MEMORY + index * 2) = makeVgaEntry(c, color);
+}
+
+void Terminal::_updateCursor(const size_t &x, const size_t &y) {
+   uint16_t cursorLocation = y * VGA_WIDTH + x;
    io::port::write(0x3D4, 14); // Tell VGA we are setting the high byte
    io::port::write(0x3D5, cursorLocation >> 8); // Send the high byte
    io::port::write(0x3D4, 15); // Tell VGA we are setting the low byte
    io::port::write(0x3D5, cursorLocation); // Send the low byte
 }
 
-/*
- * Main terminal functions
- */
-void terminal::init() {
-    if(termHasBeeninit_g) {
-        return;
-    }
-
-    currRow_g = currCol_g = 0;
-    currColor_g = makeColor(TerminalColor::LightGray, TerminalColor::Black);
-    textBuffer_g = (uint16_t *) VGA_MEMORY;
+void Terminal::init() {
+    _row = _col = 0;
+    _color = makeColor(TerminalColor::White, TerminalColor::Blue);
     for(size_t y = 0; y < VGA_HEIGHT; y++) {
         for(size_t x = 0; x < VGA_WIDTH; x++) {
-            const size_t index = y * VGA_WIDTH + x;
-            textBuffer_g[index] = makeVgaEntry(' ', currColor_g);
+            const auto index = y * VGA_WIDTH + x;
+            *(uint16_t *) (VGA_MEMORY + index * 2) = makeVgaEntry(' ', _color);
         }
     }
-    termHasBeeninit_g = true;
 }
 
-void terminal::setColor(TerminalColor color) {
-    currColor_g = color;
+void Terminal::setColor(const TerminalColor &color) {
+    _color = color;
 }
 
-void terminal::putChar(char c) {
+void Terminal::putChar(const char &c) {
     if(c == '\n') {
-        currCol_g = VGA_WIDTH - 1;
+        _col = VGA_WIDTH - 1;
     } else {
-        putEntryAt(c, currColor_g, currCol_g, currRow_g);
+        _putEntryAt(c, _color, _col, _row);
     }
-    if(++currCol_g == VGA_WIDTH) {
-        currCol_g = 0;
-        if(++currRow_g == VGA_HEIGHT) {
-            currRow_g = 0;
+    if(++_col == VGA_WIDTH) {
+        _col = 0;
+        if(++_row == VGA_HEIGHT) {
+            _row = 0;
         }
     }
-    updateCursor();
+    _updateCursor(_col, _row);
 }
 
-void terminal::putInteger(uint32_t d) {
+void Terminal::putInteger(const uint32_t &d) {
     if(d == 0) {
         putChar('0');
         return;
@@ -110,8 +114,8 @@ void terminal::putInteger(uint32_t d) {
     }
 }
 
-void terminal::putStr(const char *str) {
-    size_t len = strLen(str);
+void Terminal::putStr(const char *str) {
+    const auto len = strLen(str);
     for(size_t ind = 0; ind < len; ind++) {
         putChar(str[ind]);
     }

@@ -8,14 +8,14 @@
 using namespace angl;
 using namespace device;
 
-Timer Timer::instance_g;
+Timer Timer::_instance = Timer();
 
 void Timer::handler(const kernel::RegisterSet &regs) {
     instance()->tick();
 }
 
 Timer *Timer::instance() {
-    return &instance_g;
+    return &_instance;
 }
 
 Timer::Timer() {

@@ -8,7 +8,7 @@ namespace angl {
     namespace device {        
         class Timer {
             private:
-                static Timer instance_g;
+                static Timer _instance;
                 uint32_t _ticks;
                 
                 Timer();

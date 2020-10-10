@@ -10,14 +10,14 @@ using namespace angl;
 using namespace kernel;
 
 void interruptcontroller::isrHandler(RegisterSet regs) {
-    io::terminal::init();
-    io::terminal::putStr("  Received interrupt: ");
-    io::terminal::putInteger(regs.interruptNumber);
-    io::terminal::putChar('\n');
+    auto terminal = io::Terminal::instance();
+    terminal->putStr("  Received interrupt: ");
+    terminal->putInteger(regs.interruptNumber);
+    terminal->putChar('\n');
 
     if(regs.interruptNumber == 14) {
-        io::terminal::putStr("Ya done messed up. That's a page fault, buddy!");
-        io::terminal::putStr("\nNot going to recover...");
+        terminal->putStr("Ya done messed up. That's a page fault, buddy!");
+        terminal->putStr("\nNot going to recover...");
         while(true);
     }
 }
@@ -51,7 +51,7 @@ void interruptcontroller::enableIrq(uint32_t num) {
 }
 
 void interruptcontroller::irqHandler(RegisterSet regs) {
-    io::terminal::init();
+    auto terminal = io::Terminal::instance();
 
     if(regs.interruptNumber >= 40) {
         io::port::write(0xA0, 0x20); // Send reset signal to slave
@@ -64,12 +64,12 @@ void interruptcontroller::irqHandler(RegisterSet regs) {
             break;
         
         case 46:
-            io::terminal::putStr("Page fault!");
+            terminal->putStr("Page fault!");
             while(true);
             break;
 
         default:
-            io::terminal::putStr("IRQ received, but no handler defined.\n");
+            terminal->putStr("IRQ received, but no handler defined.\n");
             break;
     }
 }
