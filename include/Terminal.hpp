@@ -27,11 +27,6 @@ namespace angl {
                 TerminalColor _color;
                 
                 void init();
-                void _putEntryAt(
-                    const char &c, const TerminalColor &color,
-                    const size_t &x, const size_t &y
-                );
-                void _updateCursor(const size_t &x, const size_t &y);
             
             public:
                 static Terminal *instance();

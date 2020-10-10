@@ -51,9 +51,9 @@ void Kernel::run() {
     
     _terminal->putStr("Welcome to ANGL OS!\nCreated by Dylan Turner\n");
 
-    //_testIdt();
-    //_testIrqThroughTimer();
-    //_testPageFault(); // Uncomment this function to cause a page fault
+    _testIdt();
+    _testIrqThroughTimer();
+    _testPageFault(); // Uncomment this function to cause a page fault
 
     while(true);
 }
